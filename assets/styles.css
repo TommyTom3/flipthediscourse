@@ -1,0 +1,924 @@
+:root{
+  --bg:#0b0c0f;
+  --panel:#14161d;
+  --text:#eaeaf0;
+  --muted:#a9acb8;
+  --line:#262a36;
+  --accent:#f1c17a;
+
+  /* fighter jet grey */
+  --jet:#b7bbc4;
+}
+
+*{ box-sizing:border-box; }
+
+html, body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  background-color: var(--bg); /* never show white */
+  color: var(--text);
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height: 1.6;
+}
+
+/* Cave background: fills viewport + repeats vertically */
+body{
+ 
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #0b0c0f;
+}
+
+/* iOS / mobile: fixed backgrounds can jitter */
+@media (max-width: 900px) {
+  body { background-attachment: scroll; 
+  background-position: center center;
+  }
+}
+
+a{ color: var(--accent); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+
+/* =========================
+   APP LAYOUT
+   ========================= */
+
+.app{
+  min-height: 100vh;
+  display:flex;
+  flex-direction: column;
+}
+
+/* =========================
+   HEADER (sticky, centered logo)
+   ========================= */
+
+  
+   .site-header{
+    padding: 24px 0 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    background: rgba(150, 150, 300, 0.15);  /* more transparent to show cave */
+  backdrop-filter: blur(3px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  
+  .site-header img{
+    display: block;
+    width: auto;
+    height: auto;           /* key: stop "fill header" behavior */
+    max-height: 170px;      /* set the actual banner size */
+    max-width: 96%;
+    object-fit: contain;
+  }
+
+  /* Title header text (replaces old logo image) */
+.site-title{
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.02em;
+}
+
+.site-tagline{
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Banner between header and nav */
+/* Banner between header and nav (NO CROP) */
+.mid-banner{
+  width: 100%;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.10);
+}
+
+.mid-banner img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Compact mobile banner */
+@media (max-width: 600px){
+
+  .mid-banner{
+    max-height: 140px;   /* more compact */
+    overflow: hidden;
+  }
+
+  .mid-banner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+}
+
+/* mobile sizing */
+@media (max-width: 600px){
+  .site-title{ font-size: 26px; }
+  .mid-banner{ height: 200px; }
+}
+  
+  @media (max-width: 600px){
+    .site-header{
+      height: 130px;        /* shrink header on phone */
+    }
+  
+    .site-header img{
+      max-height: 110px;    /* shrink banner on phone */
+    }
+  }
+ 
+  .header-inner{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    max-width:1200px;
+    padding:0 20px;
+  }
+  
+  .coming{
+    background: rgba(20,22,29,0.65);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(6px);
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    text-align:center;
+    color: var(--jet);
+    min-width: 160px;
+  }
+  
+  .coming p{
+    margin:0;
+    font-weight:600;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+  }
+  
+  @media (max-width: 900px){
+    .coming{
+      display:none;  /* hide on mobile so it stays clean */
+    }
+  }
+
+/* =========================
+   NAV (NOT sticky; scrolls away)
+   ========================= */
+
+.nav{
+  position: static;              /* NOT fixed; disappears when scrolling */
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap: 22px;
+  flex-wrap: wrap;
+
+  padding: 12px 16px;
+  min-height: 48px;
+
+  background: rgba(42, 74, 221, 0.1);  /* more transparent to show cave */
+  backdrop-filter: blur(3px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.nav a{
+  color: var(--jet);
+  padding: 8px 12px;
+  border-radius: 999px;          /* pill */
+  text-decoration:none;
+
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 16px;
+
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.nav a:hover,
+.nav a.active{
+  background: var(--jet);        /* fighter jet grey bubble */
+  color: #0b0c0f;                /* black text in bubble */
+  text-decoration:none;
+}
+
+@media (max-width: 600px){
+  .nav a{ font-size: 14px; }
+}
+
+/* =========================
+   PAGE PANEL (scrolls inside)
+   ========================= */
+
+  .page{
+    width: min(1000px, calc(100% - 40px));
+    margin: 40px auto;
+    background: transparent;
+    border: none;
+    padding: 0;
+    flex: 1;
+  }
+
+  .paper{
+    background: rgba(244, 236, 216, 0.33);  /* more transparent to show cave */
+    backdrop-filter: blur(3px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #f7f8f7;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+  }
+  
+  .paper h1,
+  .paper h2,
+  .paper h3,
+  .paper p,
+  .paper li,
+  .paper .small,
+  .paper .sub{
+    color: #f2f5f4;
+  }
+  
+  .paper a{
+    color: #f5f7f6;
+  }
+  
+  .paper a:hover{
+    color: #173323;
+  }
+
+  @media (max-width: 600px){
+    .page{
+      width: calc(100% - 24px);
+      margin: 16px auto 20px;
+      padding: 0;
+    }
+  }
+  
+/* =========================
+   CONTENT STYLES
+   ========================= */
+
+.container{
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0;                    /* page already pads */
+}
+
+.h1{
+  font-size: 36px;
+  margin: 0 0 16px;
+}
+
+.sub{
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+.card{
+  background: var(--panel);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin-top: 20px;
+}
+
+/* Home-page update card */
+.ftd-update{
+  background: #E9E1D2;      /* beige */
+  border-color: rgba(0,0,0,0.18);
+  padding: 28px 40px;      /* extra left/right space */
+  margin: 30px 60px;       /* space from edges of page */
+}
+
+.ftd-update__title{
+  margin: 0 0 18px;
+  color: #0B3D2E;           /* evergreen */
+  text-align: center;      /* center "Update" */
+  letter-spacing: 0.05em;
+}
+
+.ftd-update__text{
+  margin: 0 0 14px;
+  color: #0B3D2E;           /* evergreen */
+  line-height: 1.6;
+}
+
+.ftd-update__text:last-child{
+  margin-bottom: 0;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px){
+  .ftd-update{
+    margin: 20px 16px;     /* safe mobile spacing */
+    padding: 22px 20px;    /* tighter side padding */
+  }
+}
+
+.btn{
+  display:inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  margin-top: 10px;
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+  text-decoration:none;
+}
+
+.btn:hover{ text-decoration:none; }
+
+.btn.primary{
+  background: rgba(241,193,122,0.12);
+  border-color: #b7bbc4;
+}
+
+.hr{
+  height:1px;
+  background: var(--line);
+  margin: 30px 0;
+}
+
+.small{
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding: 1.5rem 1rem;
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+/* ===== Title / Header styling ===== */
+.page-header {
+  max-width: 900px;
+  margin: 3rem auto 1.5rem;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  line-height: 1.15;
+}
+
+.page-header .subtitle {
+  margin: 0.75rem 0 0;
+  font-size: 1.05rem;
+  color: #666;
+}
+
+/* ===== Main content wrapper (optional but nice) ===== */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ===== Footer styling ===== */
+.site-footer {
+  margin-top: 4rem;
+  padding: 1.5rem 1rem;
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.byline {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #888;
+  letter-spacing: 0.02em;
+}
+
+/* ===== Mobile Header Center Fix ===== */
+@media (max-width: 900px){
+  .header-inner{
+    justify-content: center;
+  }
+}
+
+/* ===== Mobile Nav Improvements ===== */
+@media (max-width: 600px){
+  .nav{
+    padding: 14px 12px;
+    gap: 10px;
+  }
+
+  .nav a{
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .site-header{
+    height: 150px;
+  }
+
+  .site-header img{
+    max-height: 130px;
+  }
+}
+
+.meet-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.meet-section img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Mobile stacking */
+@media (max-width: 600px) {
+  .meet-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meet-section img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  align-items: center; 
+}
+
+
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hero-left img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.hero-right {
+  text-align: left;
+}
+
+
+
+/* ABOUT: always side-by-side (even on mobile) */
+.about-split{
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.about-left{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start; /* prevents button stretch */
+}
+
+.about-split img{
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+}
+
+.about-right .sub,
+.about-split .sub{
+  margin: 0;
+}
+
+/* Small screens: keep side-by-side, just shrink the left column + image */
+@media (max-width: 650px){
+  .about-split{
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+  }
+
+  .about-split img{
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+  }
+}
+
+/* Very small phones: still side-by-side, even tighter */
+@media (max-width: 420px){
+  .about-split{
+    grid-template-columns: 96px 1fr;
+    gap: 12px;
+  }
+
+  .about-split img{
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+  }
+}
+
+.about-left {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.coffee-btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.2s ease;
+  width: fit-content;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.coffee-btn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* FORCE: Homepage hero stays side-by-side on small screens */
+.hero-split{
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.hero-left{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
+}
+
+.hero-left img{
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.hero-left .btn{
+  width: fit-content;       /* prevents buttons from stretching */
+  max-width: 100%;
+}
+
+.hero-right{
+  min-width: 0;             /* allows text column to shrink */
+}
+
+.hero-split img{
+  max-width: 100%;
+}
+
+/* shrink hero (DO NOT stack) */
+@media (max-width: 650px){
+  .hero-split{ grid-template-columns: 130px 1fr; gap: 16px; }
+  .hero-left img{ width: 120px; height: 120px; border-radius: 12px; }
+}
+
+@media (max-width: 420px){
+  .hero-split{ grid-template-columns: 96px 1fr; gap: 12px; }
+  .hero-left img{ width: 86px; height: 86px; border-radius: 10px; }
+}
+
+/* prevent long words/links from breaking the grid */
+.hero-split p{ overflow-wrap: anywhere; }
+
+/* iPhone-specific tightening */
+@media (max-width: 600px){
+
+  .about-split{
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+  }
+
+  /* ONLY the portrait in the left column */
+  .about-left > img{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 10px;
+  }
+
+  .hero-split{
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+  }
+
+  .hero-left img{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 10px;
+  }
+
+}
+
+/* MOBILE HERO LAYOUT RESTRUCTURE */
+@media (max-width: 600px){
+
+  /* Stack hero */
+  .hero-split{
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  /* Top row: image + Meet Tom */
+  .hero-left{
+    display: grid !important;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* Image sizing */
+  .hero-left img{
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 12px;
+  }
+
+  /* First button (Meet Tom) sits beside image */
+  .hero-left .btn:first-of-type{
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Second button (Read First Essay) forced below full width */
+  .hero-left .btn:last-of-type{
+    grid-column: 1 / -1; /* spans full width */
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Text full width below */
+  .hero-right{
+    width: 100%;
+  }
+
+}
+
+/* MOBILE: Meet Tom stacks (photo on top, text below) */
+@media (max-width: 600px){
+  .about-split{
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .about-left{
+    align-items: center;   /* centers image + button */
+  }
+
+  .about-split img{
+    width: 110px !important;
+    height: 110px !important;
+  }
+}
+
+/* HERO: audio strip spans full width above both columns */
+.hero-audio{
+  grid-column: 1 / -1;     /* span all columns */
+  width: 100%;
+  max-width: 640px;        /* optional: keeps it from being huge */
+  margin: 0 auto 18px auto;
+}
+
+.hero-audio audio{
+  width: 100%;
+  display: block;
+}
+
+.hero-audio img{
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+
+  border-radius: 14px; /* same feel as hero image */
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* ABOUT PAGE AUDIO BLOCK */
+.about-audio{
+  max-width: 520px;
+  margin: 0 0 20px 0;
+}
+
+.about-audio img{
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px auto;
+
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.about-audio audio{
+  width: 100%;
+  display: block;
+}
+
+/* ===== FIX: About page "listen.png" never becomes a square ===== */
+@media (max-width: 600px){
+  .about-split .about-audio img{
+    width: 100% !important;
+    height: auto !important;
+    max-width: 520px;
+    object-fit: contain !important;
+  }
+}
+
+/* ===== Archive accordion ===== */
+.archive-group{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+  border-radius: 12px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+
+.archive-group summary{
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--text);
+  user-select: none;
+}
+
+.archive-group summary::-webkit-details-marker{ display:none; }
+
+.archive-group summary::after{
+  content: "▾";
+  margin-left: auto;
+  opacity: 0.8;
+  transition: transform 140ms ease;
+}
+
+.archive-group[open] summary::after{
+  transform: rotate(-180deg);
+}
+
+.archive-body{
+  padding: 6px 16px 16px;
+}
+
+/* Toolbar above archive groups */
+.archive-toolbar{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0 18px;
+}
+
+/* ===== Back to top button ===== */
+.back-to-top{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.back-to-top.show{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ===== Collapsible essay section ===== */
+
+.essay-collapsible {
+  display: none;
+}
+
+.essay-collapsible.open {
+  display: block;
+}
+
+.essay-toggle {
+  display: block;
+  margin: 24px auto;
+  cursor: pointer;
+  font-weight: 700;
+
+  font-size: 2rem;
+  padding: 18px 36px;
+  border-radius: 14px;
+}
+
+/* ===== Archive popup ===== */
+
+.archive-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 99999;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.archive-popup {
+  max-width: 720px;
+  width: 100%;
+
+  background: #14161d;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  border-radius: 18px;
+  padding: 36px;
+
+  color: #eaeaf0;
+  text-align: center;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.archive-popup h2 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.archive-popup p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.archive-popup-close {
+  margin-top: 24px;
+  font-size: 1.2rem;
+  padding: 14px 28px;
+}
+
+.archive-popup-overlay.hidden {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .archive-popup {
+    padding: 24px;
+  }
+
+  .archive-popup h2 {
+    font-size: 1.5rem;
+  }
+
+  .archive-popup p {
+    font-size: 1rem;
+  }
+}
